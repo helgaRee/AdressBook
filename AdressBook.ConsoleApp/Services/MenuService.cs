@@ -1,5 +1,6 @@
 ﻿using AdressBook.Shared.Models;
 using AdressBook.Shared.Services;
+using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
@@ -94,7 +95,39 @@ namespace AdressBook.ConsoleApp.Services;
 
     public void ShowSpecificContact()
     {
-       
+        DisplayTitle("Öppna en kontakt");
+        //hämta listan
+       var contactList = _contactService.GetContactsFromList();
+
+        if (contactList.Count > 0)
+        {
+            for( int i = 0; i < contactList.Count; i++ )
+            {
+                Console.WriteLine($"{i + 1}. Email: {contactList[i].Email}");
+            } 
+              
+          if (int.TryParse(Console.ReadLine(), out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= contactList.Count)
+            {
+                // Hämta den valda kontakten
+                var selectedContact = contactList.ElementAt(selectedIndex - 1);
+
+                // Visa detaljer om den valda kontakten
+                Console.WriteLine($"Namn: {selectedContact.FirstName} {selectedContact.LastName}");
+                Console.WriteLine($"Email: {selectedContact.Email}");
+                Console.WriteLine($"Adress: {selectedContact.Address}");
+                Console.WriteLine($"Postkod: {selectedContact.PostalCode}");
+                Console.WriteLine($"Stad: {selectedContact.City}");
+                Console.WriteLine($"Mobilnummer: {selectedContact.PhoneNumber}");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val. Försök igen.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Det finns inga kontakter i adressboken.");
+        }
     }
 
 
@@ -110,8 +143,8 @@ namespace AdressBook.ConsoleApp.Services;
 
         foreach (var contact in contactList)
         {
-            Console.WriteLine($" Namn: {contact.FirstName} {contact.LastName}\n Email: {contact.Email}\n Adress: " +
-                $"{contact.Address}\n Postkod: {contact.PostalCode} stad: {contact.City}\n Mobilnummer: {contact.PhoneNumber}");
+            Console.WriteLine($"{"-", -3} Namn:{contact.FirstName} {contact.LastName}\n {"-",-3}Email: {contact.Email}\n {"-",-3}Adress: " +
+                $"{contact.Address}\n {"-",-3}Postkod: {contact.PostalCode} {"-",-3}stad: {contact.City}\n {"-",-3}Mobilnummer: {contact.PhoneNumber}");
             Console.WriteLine("\n\n");
         }
 

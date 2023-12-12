@@ -6,20 +6,19 @@ using System.Diagnostics;
 using System.Linq;
 
 namespace AdressBook.Shared.Services;
-
+//I contactService kan jag lägga till, ta bort och hämta kontakter. Och uppdatera?
 public class ContactService
 {
-    //Specificerar vart sökvägen ska gå och skapar listan
+
     private readonly FileService _fileService = new FileService(@"C:\EC\Projects\content.json");
     private List<Contact> _contactList = new List<Contact>();
 
 
-    //hämtar denna metoden när jag vill lägga till något till listan
+    //Add contacts to list
     public void AddContactToList(Contact contact)
     {
         try
         {
-        //kontrollera om det inte finns en kontakt i listan, finns ingen, lägg till
         if (!_contactList.Any(currentContactInList => currentContactInList.Email == contact.Email))
         {
             _contactList.Add(contact);
@@ -32,7 +31,7 @@ public class ContactService
 
 
 
-
+    //Delete contacts from list
     public void DeleteContactFromList(string email)
     {
         {
@@ -67,12 +66,7 @@ public class ContactService
     }
 
 
-
-
-
-    //Hämta LISTAN med en IEnumerable! Men varför? varför inte en vanlig lista?
-    //sätter den till IEnumerable så att den endast blir LÄSBAR, får ej adda/tabort något från listan
-
+    //Get and read contactList
     public List<Contact> GetContactsFromList()
     {
         try
