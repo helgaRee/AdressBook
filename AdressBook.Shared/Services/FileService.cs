@@ -19,9 +19,6 @@ public class FileService(string filePath) : IFileService
 
     private readonly string _filePath = filePath;
     public bool SaveContactToFile(string contact)
-
-
-
     {
         try
         {

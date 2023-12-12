@@ -1,17 +1,19 @@
 ﻿using AdressBook.Shared.Models;
 using AdressBook.Shared.Services;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
-namespace AdressBook.Console.Services;
+namespace AdressBook.ConsoleApp.Services;
 
-public class MenuService
-{
+    public class MenuService
+    {
     //Gör instansiering av klassen ContactService för att anvädna dess funktioner här
     private readonly ContactService _contactService = new ContactService();
+
     //Metod - visar användarmenyn
     public void ShowMenu()
     {
-        
+
 
         while (true)
         {
@@ -92,43 +94,11 @@ public class MenuService
 
     public void ShowSpecificContact()
     {
-        DisplayTitle("Visa detaljer om en kontakt");
-        //hämta specifik kontakt med indexering
-        var contactList = _contactService.GetContactsFromList();
-
-        //OM det finns någon i listan, gå vidare
-        if (contactList.Count > 0)
-        {
-            //Visa listan
-             Console.WriteLine("Välj en kontakt: ");
-               for(int i = 0; i < contactList.Count; i++)
-                {
-                Console.WriteLine($"{i + 1}. {contactList[i].FirstName} {contactList[i].LastName}");
-                }
-
-               //Läs in användarens svar
-             if (int.TryParse(Console.ReadLine(), out int selectedIndex))
-            {
-                //kontrollera om det valda indexet är inom rätt intervall
-                if(selectedIndex >= 1 && selectedIndex <= contactList.Count)
-                {
-                    //justera index för att kunna hämta rätt kontakt
-                    var selectedContact = contactList[selectedIndex - 1];
-                    Console.WriteLine($"Namn: {selectedContact.FirstName} {selectedContact.LastName}\n Email: {selectedContact.Email}\n Adress: " +
-                    $"{selectedContact.Address}\n Postkod: {selectedContact.PostalCode} stad: {selectedContact.City}\n {selectedContact.PhoneNumber}");
-                }
-                else
-                {
-                    Console.WriteLine("Det valda kontakten verkar inte finnas, försök igen..!");
-                }
-            }
-
-        }
-        else
-        {
-            Console.WriteLine("Det finns inga kontakter i adressboken. Gå tillbaka till huvudmenyn för att lägga till nya kontakter.");
-        }
+       
     }
+
+
+
 
 
     public void ShowAllContacts()
@@ -139,9 +109,10 @@ public class MenuService
         var contactList = _contactService.GetContactsFromList();
 
         foreach (var contact in contactList)
-          {
-            Console.WriteLine($"Namn: {contact.FirstName} {contact.LastName}\n Email: {contact.Email}\n Adress: " +
-                $"{contact.Address}\n Postkod: {contact.PostalCode} stad: {contact.City}\n {contact.PhoneNumber}");
+        {
+            Console.WriteLine($" Namn: {contact.FirstName} {contact.LastName}\n Email: {contact.Email}\n Adress: " +
+                $"{contact.Address}\n Postkod: {contact.PostalCode} stad: {contact.City}\n Mobilnummer: {contact.PhoneNumber}");
+            Console.WriteLine("\n\n");
         }
 
 
@@ -149,20 +120,71 @@ public class MenuService
 
 
 
-    public void DeleteContact()
-    {
-        DisplayTitle("Ta bort en kontakt ur listan");
-    }
-    public void ExitProgram()
-    {
-        DisplayTitle("Stäng av programmet");
+
+
+
+public void DeleteContact()
+{
+    DisplayTitle("Ta bort en kontakt ur listan");
+
+        // Hämta befintliga kontakter från filen
+        var contactList = _contactService.GetContactsFromList().ToList();
+
+        // Visa kontakter om det finns några
+        if (contactList.Any())
+        {
+            Console.WriteLine("Befintliga kontakter");
+            foreach(var contact in contactList)
+            {
+                Console.WriteLine($"{contact.FirstName} {contact.LastName} {contact.Email}");
+            }
+
+            //be anv ange epost för den som ska tas bort
+            Console.WriteLine("Ange email för vilken kontakt du vill ta bort");
+            string emailToDelete = Console.ReadLine();
+
+            //anropa metod för att ta bort från listan
+        _contactService.DeleteContactFromList(emailToDelete);
+        }
     }
 
-    //Metod för titel
-    public void DisplayTitle(string title)
-    {
-        Console.Clear();
-        Console.WriteLine($"{title}");
-        Console.WriteLine("");
-    }
-}
+
+
+
+
+
+
+
+
+        public void ExitProgram()
+        {
+            DisplayTitle("Stäng av programmet");
+
+            Console.WriteLine("Är du säker på att du vill avsluta? (ja/nej)");
+            string userOption = Console.ReadLine()?.ToLower();
+
+            if (userOption != "ja")
+            {
+                Console.WriteLine("Tryck enter för att gå tillbaka till huvudmenyn.");
+            }
+            if (userOption != "ja" && userOption != "nej")
+            {
+                Console.Clear();
+                Console.WriteLine("Ops, nu blev det fel.. du skickas tillbaka till menyn.");
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
+
+        }
+
+        //Metod för titel
+        public void DisplayTitle(string title)
+        {
+            Console.Clear();
+            Console.WriteLine($"{title}");
+            Console.WriteLine("");
+        }
+    } 
+
