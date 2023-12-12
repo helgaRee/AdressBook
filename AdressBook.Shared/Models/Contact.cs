@@ -9,11 +9,10 @@ public class Contact : IContact
     public string LastName { get; set; } = null!;
     public string Email { get; set; } = null!;
    
-   public string Address { get; set; } = null!;
+    public string Address { get; set; } = null!;
     public string City { get; set; } = null!;
     public string PostalCode { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
-    public string V { get; }
 
     public Contact(string firstName, string lastName, string email, string address, string city, string postalCode, string phoneNumber)
     {

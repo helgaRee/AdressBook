@@ -114,8 +114,8 @@ public class MenuService
                 {
                     //justera index för att kunna hämta rätt kontakt
                     var selectedContact = contactList[selectedIndex - 1];
-                    Console.WriteLine($"Namn: {contact.FirstName} {contact.LastName}\n Email: {contact.Email}\n Adress: " +
-                    $"{contact.Address}\n Postkod: {contact.PostalCode} stad: {contact.City}\n {contact.PhoneNumber}");
+                    Console.WriteLine($"Namn: {selectedContact.FirstName} {selectedContact.LastName}\n Email: {selectedContact.Email}\n Adress: " +
+                    $"{selectedContact.Address}\n Postkod: {selectedContact.PostalCode} stad: {selectedContact.City}\n {selectedContact.PhoneNumber}");
                 }
                 else
                 {
