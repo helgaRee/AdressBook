@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdressBook.Shared", "AdressBook.Shared\AdressBook.Shared.csproj", "{2C853EA9-8C62-4A25-9946-F6A48CF99490}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdressBook.ConsoleApp", "AdressBook.ConsoleApp\AdressBook.ConsoleApp.csproj", "{93419ADF-A4E0-4CA1-853E-1026195DADF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C853EA9-8C62-4A25-9946-F6A48CF99490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C853EA9-8C62-4A25-9946-F6A48CF99490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C853EA9-8C62-4A25-9946-F6A48CF99490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C853EA9-8C62-4A25-9946-F6A48CF99490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93419ADF-A4E0-4CA1-853E-1026195DADF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93419ADF-A4E0-4CA1-853E-1026195DADF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93419ADF-A4E0-4CA1-853E-1026195DADF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93419ADF-A4E0-4CA1-853E-1026195DADF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9AE31691-701E-451E-A559-648B0AE4A886}
+	EndGlobalSection
+EndGlobal
