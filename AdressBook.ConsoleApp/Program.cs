@@ -7,8 +7,7 @@ using AdressBook.Shared.Services;
 //spara in dessa i listan
 ContactService contactService = new();
 
-
-//hämta menuservis instansiering
-MenuService menuService = new MenuService();
+//hämta menuservis instansiering och skicka med contactService för att komma åt dess metoder
+MenuService menuService = new MenuService(contactService);
 
 menuService.ShowMenu();

@@ -1,4 +1,5 @@
-﻿using AdressBook.Shared.Interfaces;
+﻿//I contactService kan jag lägga till, ta bort och hämta kontakter. Och uppdatera?
+using AdressBook.Shared.Interfaces;
 using AdressBook.Shared.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -6,16 +7,15 @@ using System.Diagnostics;
 using System.Linq;
 
 namespace AdressBook.Shared.Services;
-//I contactService kan jag lägga till, ta bort och hämta kontakter. Och uppdatera?
-public class ContactService
+public class ContactService : IContactService
 {
 
     private readonly FileService _fileService = new FileService(@"C:\EC\Projects\content.json");
-    private List<Contact> _contactList = new List<Contact>();
+    private List<IContact> _contactList = new List<IContact>();
 
 
     //Add contacts to list
-    public void AddContactToList(Contact contact)
+    public bool AddContactToList(IContact contact)
     {
         try
         {
@@ -23,51 +23,55 @@ public class ContactService
         {
             _contactList.Add(contact);
             _fileService.SaveContactToFile(JsonConvert.SerializeObject(_contactList));
+                return true;
         }
         }
-        catch ( Exception ex ) { Debug.WriteLine(ex); };
+        catch ( Exception ex ) { Debug.WriteLine(ex.Message); }
+        return false;
     }
 
 
 
 
-    //Delete contacts from list
-    public void DeleteContactFromList(string email)
+    //Delete contacts from list, bool to return a value
+    public bool DeleteContactFromList(string email)
     {
+        
+        try
         {
-            try
+            // Hämta befintliga kontakter
+            var contactList = GetContactsFromList(Get_contactList()).ToList();
+
+            // Hitta kontakten med den angivna e-postadressen
+            var contactToDelete = contactList.FirstOrDefault(contact => contact.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+
+            if (contactToDelete != null)
             {
-                // Hämta befintliga kontakter
-                var contactList = GetContactsFromList().ToList();
+                // Ta bort kontakten från listan
+                contactList.Remove(contactToDelete);
 
-                // Hitta kontakten med den angivna e-postadressen
-                var contactToDelete = contactList.FirstOrDefault(contact => contact.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+                // Spara den uppdaterade listan till filen
+                _fileService.SaveContactToFile(JsonConvert.SerializeObject(contactList));
 
-                if (contactToDelete != null)
-                {
-                    // Ta bort kontakten från listan
-                    contactList.Remove(contactToDelete);
-
-                    // Spara den uppdaterade listan till filen
-                    _fileService.SaveContactToFile(JsonConvert.SerializeObject(contactList));
-
-                    Console.WriteLine($"Kontakt med e-postadress {email} har tagits bort.");
-                }
-                else
-                {
-                    Console.WriteLine($"Ingen kontakt med e-postadressen {email} hittades.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ett fel uppstod: {ex.Message}");
+                return true;
             }
         }
+        catch (Exception ex) 
+        { 
+            Debug.WriteLine(ex); 
+        };
+        return false;
     }
+
+    public List<IContact> Get_contactList()
+    {
+        return _contactList;
+    }
+
 
 
     //Get and read contactList
-    public List<Contact> GetContactsFromList()
+    public List<IContact> GetContactsFromList(List<IContact> _contactList)
     {
         try
         { //Hämta contacten
@@ -76,7 +80,7 @@ public class ContactService
             if (!string.IsNullOrEmpty(contact))
             {
 
-               _contactList = JsonConvert.DeserializeObject<List<Contact>>(contact)!;
+               _contactList = JsonConvert.DeserializeObject<List<IContact>>(contact)!;
             }
         }
         catch (Exception ex) { Debug.WriteLine(ex); };
@@ -84,5 +88,20 @@ public class ContactService
         return _contactList;
     }
 
+    //för testning
+    public IEnumerable<IContact> GetAllFromList()
+    {
+        try
+        {
+            return _contactList;
+        }
+        catch (Exception ex) { Debug.WriteLine(ex); }
+        return null!;
+        
+    }
 
+    public bool DeleteContactFromList(IContact contact)
+    {
+        throw new NotImplementedException();
+    }
 }

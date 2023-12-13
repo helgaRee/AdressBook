@@ -1,6 +1,6 @@
 ﻿namespace AdressBook.Shared.Interfaces;
 
-public class IContact
+public interface IContact
 {
     string Address { get; set; }
     string City { get; set; }

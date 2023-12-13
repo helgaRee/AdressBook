@@ -11,6 +11,12 @@ namespace AdressBook.ConsoleApp.Services;
     //Gör instansiering av klassen ContactService för att anvädna dess funktioner här
     private readonly ContactService _contactService = new ContactService();
 
+    //Konstruktor
+    public MenuService(ContactService contactsService)
+    {
+        _contactService= contactsService;
+    }
+
     //Metod - visar användarmenyn
     public void ShowMenu()
     {
@@ -41,7 +47,7 @@ namespace AdressBook.ConsoleApp.Services;
                     ShowSpecificContact();
                     break;
                 case "3":
-                    ShowAllContacts();
+                    ShowContacts();
                     break;
                 case "4":
                     DeleteContact();
@@ -77,33 +83,77 @@ namespace AdressBook.ConsoleApp.Services;
         Console.Write("Ange stad: ");
         string city = Console.ReadLine()!;
 
-
         // Skapa en ny kontakt med de användarinmatade värdena
         var contact = new Contact(firstName, lastName, email, streetAdress, city, postalCode, phoneNumber);
 
         //lägg till i listan
         _contactService.AddContactToList(contact);
 
-        //Ge bekräftelse till användaren
+        //Rensa och Ge bekräftelse till användaren
+        Console.Clear();
         Console.WriteLine($"{firstName} {lastName} har lagts till som ny kontakt till adressboken.");
+        Console.WriteLine("");
         Console.WriteLine("Tryck enter för att gå vidare");
     }
 
 
 
+public void DeleteContact()
+{
+            DisplayTitle("Ta bort en kontakt ur listan");
+
+            // Hämta befintliga kontakter från filen
+            var contactList = _contactService.GetContactsFromList(_contactService.Get_contactList()).ToList();
+
+            // Visa kontakter om det finns några
+            if (contactList.Any())
+            {
+            Console.WriteLine("Befintliga kontakter");
+            Console.WriteLine("\n");
+            foreach(var contact in contactList)
+            {
+                Console.WriteLine($"{contact.FirstName} {contact.LastName} {contact.Email}");
+            }
+
+            //be anv ange epost för den som ska tas bort
+            Console.WriteLine("\n");
+            Console.WriteLine("Ange email för vilken kontakt du vill ta bort");
+            string emailToDelete = Console.ReadLine();
+
+            //spara undan informationen om kontakten, INNAN den taas bort, med FirstOrDefault()
+            var contactToRemove = contactList.FirstOrDefault(contact => contact.Email.Equals(emailToDelete, StringComparison.OrdinalIgnoreCase));
+
+
+            //anropa metod för att ta bort från listan
+            Console.Clear();
+            bool deleteSuccess = Convert.ToBoolean(_contactService.DeleteContactFromList(emailToDelete));
+
+            //ge bekräftelse på att Delete fungerade
+            if (deleteSuccess)
+            {
+                Console.WriteLine($"Kontakt med e-postadress {contactToRemove.Email} har tagits bort.");
+            }
+            else
+            {
+                {
+                    Console.WriteLine($"Ingen kontakt med e-postadressen {contactToRemove.Email} hittades.");
+                }
+            }
+        }
+    }
 
 
     public void ShowSpecificContact()
     {
         DisplayTitle("Öppna en kontakt");
         //hämta listan
-       var contactList = _contactService.GetContactsFromList();
+       var contactList = _contactService.GetContactsFromList(_contactService.Get_contactList());
 
         if (contactList.Count > 0)
         {
             for( int i = 0; i < contactList.Count; i++ )
             {
-                Console.WriteLine($"{i + 1}. Email: {contactList[i].Email}");
+                Console.WriteLine($"{i + 1}. Kontakt: {contactList[i].FirstName} {contactList[i].LastName}");
             } 
               
           if (int.TryParse(Console.ReadLine(), out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= contactList.Count)
@@ -128,58 +178,30 @@ namespace AdressBook.ConsoleApp.Services;
         {
             Console.WriteLine("Det finns inga kontakter i adressboken.");
         }
+        Console.WriteLine("");
+        Console.WriteLine("Tryck enter för att gå vidare");
     }
 
 
 
 
 
-    public void ShowAllContacts()
+    public void ShowContacts()
     {
         DisplayTitle("Visa alla kontakter");
 
         //hämta listan
-        var contactList = _contactService.GetContactsFromList();
+        var contactList = _contactService.GetContactsFromList(_contactService.Get_contactList());
 
         foreach (var contact in contactList)
         {
-            Console.WriteLine($"{"-", -3} Namn:{contact.FirstName} {contact.LastName}\n {"-",-3}Email: {contact.Email}\n {"-",-3}Adress: " +
-                $"{contact.Address}\n {"-",-3}Postkod: {contact.PostalCode} {"-",-3}stad: {contact.City}\n {"-",-3}Mobilnummer: {contact.PhoneNumber}");
-            Console.WriteLine("\n\n");
-        }
-
-
-    }
-
-
-
-
-
-
-public void DeleteContact()
-{
-    DisplayTitle("Ta bort en kontakt ur listan");
-
-        // Hämta befintliga kontakter från filen
-        var contactList = _contactService.GetContactsFromList().ToList();
-
-        // Visa kontakter om det finns några
-        if (contactList.Any())
-        {
-            Console.WriteLine("Befintliga kontakter");
-            foreach(var contact in contactList)
-            {
-                Console.WriteLine($"{contact.FirstName} {contact.LastName} {contact.Email}");
-            }
-
-            //be anv ange epost för den som ska tas bort
-            Console.WriteLine("Ange email för vilken kontakt du vill ta bort");
-            string emailToDelete = Console.ReadLine();
-
-            //anropa metod för att ta bort från listan
-        _contactService.DeleteContactFromList(emailToDelete);
+            Console.WriteLine($"{"-", -3} Namn:{contact.FirstName} {contact.LastName}");
+     //       Console.WriteLine($"{"-",-3} Namn:{contact.FirstName} {contact.LastName}\n {"-",-3}Email: {contact.Email}\n {"-",-3}Adress: " +
+   // $"{contact.Address}\n {"-",-3}Postkod: {contact.PostalCode} {"-",-3}stad: {contact.City}\n {"-",-3}Mobilnummer: {contact.PhoneNumber}");
+            Console.WriteLine("\n");
         }
     }
+
 
 
 
