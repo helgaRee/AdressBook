@@ -8,15 +8,10 @@ using AdressBook.Shared.Repositories;
 
 namespace AdressBook.ConsoleApp.Services;
 
-    public class MenuService
-    {
+public class MenuService
+{
 
-
-
-    //Gör instansiering av klassen ContactService för att anvädna dess funktioner här
-    //Konstruktor. När instansiering av Menuservice sker, stoppas contactservice med in
-    // private readonly ContactRepository _contactRepository;
-    private readonly ContactService _contactService; // Använd samma namn här
+    private readonly ContactService _contactService;
     private readonly ContactRepository _contactRepository;
 
     public MenuService(ContactService contactService, ContactRepository contactRepository)
@@ -104,20 +99,19 @@ namespace AdressBook.ConsoleApp.Services;
     }
 
 
-
     public void DeleteContact()
     {
-            DisplayTitle("Ta bort en kontakt ur listan");
+        DisplayTitle("Ta bort en kontakt ur listan");
 
-            // Hämta befintliga kontakter från filen
-            var contactList = _contactService.GetContactsFromList(_contactService.Get_contactList()).ToList();
+        // Hämta befintliga kontakter från filen
+        var contactList = _contactService.GetContactsFromList();
 
-            // Visa kontakter om det finns några
-            if (contactList.Any())
-            {
+        // Visa kontakter om det finns några
+        if (contactList.Any())
+        {
             Console.WriteLine("Befintliga kontakter");
             Console.WriteLine("\n");
-            foreach(var contact in contactList)
+            foreach (var contact in contactList)
             {
                 Console.WriteLine($"{contact.FirstName} {contact.LastName} {contact.Email}");
             }
@@ -154,16 +148,15 @@ namespace AdressBook.ConsoleApp.Services;
     {
         DisplayTitle("Öppna en kontakt");
         //hämta listan
-       var contactList = _contactService.GetContactsFromList(_contactService.Get_contactList());
+        var contactList = _contactService.GetContactsFromList();
 
         if (contactList.Count > 0)
         {
-            for( int i = 0; i < contactList.Count; i++ )
+            for (int i = 0; i < contactList.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. Kontakt: {contactList[i].FirstName} {contactList[i].LastName}");
-            } 
-              
-          if (int.TryParse(Console.ReadLine(), out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= contactList.Count)
+            }
+            if (int.TryParse(Console.ReadLine(), out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= contactList.Count)
             {
                 // Hämta den valda kontakten
                 var selectedContact = contactList.ElementAt(selectedIndex - 1);
@@ -195,46 +188,44 @@ namespace AdressBook.ConsoleApp.Services;
         DisplayTitle("Visa alla kontakter");
 
         //hämta listan
-        var contactList = _contactService.GetContactsFromList(_contactService.Get_contactList());
+        var contactList = _contactService.GetContactsFromList();
 
         foreach (var contact in contactList)
         {
-            Console.WriteLine($"{"-", -3} Namn:{contact.FirstName} {contact.LastName}");
+            Console.WriteLine($"{"-",-3} Namn:{contact.FirstName} {contact.LastName}");
             Console.WriteLine("\n");
         }
     }
 
 
+    public void ExitProgram()
+    {
+        DisplayTitle("Stäng av programmet");
 
-        public void ExitProgram()
+        Console.WriteLine("Är du säker på att du vill avsluta? (ja/nej)");
+        string userOption = Console.ReadLine()?.ToLower()!;
+
+        if (userOption != "ja")
         {
-            DisplayTitle("Stäng av programmet");
-
-            Console.WriteLine("Är du säker på att du vill avsluta? (ja/nej)");
-            string userOption = Console.ReadLine()?.ToLower();
-
-            if (userOption != "ja")
-            {
-                Console.WriteLine("Tryck enter för att gå tillbaka till huvudmenyn.");
-            }
-            if (userOption != "ja" && userOption != "nej")
-            {
-                Console.Clear();
-                Console.WriteLine("Ops, nu blev det fel.. du skickas tillbaka till menyn.");
-            }
-            else
-            {
-                Environment.Exit(0);
-            }
-
+            Console.WriteLine("Tryck enter för att gå tillbaka till huvudmenyn.");
         }
-
-        //Metod för titel
-        public void DisplayTitle(string title)
+        if (userOption != "ja" && userOption != "nej")
         {
             Console.Clear();
-            Console.WriteLine($"{title}");
-            Console.WriteLine("");
+            Console.WriteLine("Ops, nu blev det fel.. du skickas tillbaka till menyn.");
         }
-    } 
+        else
+        {
+            Environment.Exit(0);
+        }
 
+    }
+
+    //Metod för titel
+    public void DisplayTitle(string title)
+    {
+        Console.Clear();
+        Console.WriteLine($"{title}");
+        Console.WriteLine("");
+    }
+}

@@ -15,7 +15,17 @@ public class ContactService : IContactService
     public ContactService(IFileService fileService)
     {
         _fileService = fileService;
-        _contactList = GetContactsFromList().ToList();
+        _contactList = GetContactsFromList();
+    }
+
+    private List<IContact> GetContactsFromList()
+    {
+        throw new NotImplementedException();
+    }
+
+    public ContactService()
+    {
+        // Konstruktorlogik utan några beroenden
     }
 
     /// <summary>
@@ -80,14 +90,12 @@ public class ContactService : IContactService
         return _contactList;
     }
 
-
-
     /// <summary>
     /// Get all the contacts from the contact list, and read contact list
     /// </summary>
     /// <param name="_contactList">a list of type name</param>
     /// <returns>Return list of contacts if its not empty</returns>
-    public List<IContact> GetContactsFromList(List<IContact> _contactList)
+    public List<IContact> GetContactsFromList()
     {
         try
         { //Hämta contacten
@@ -103,6 +111,7 @@ public class ContactService : IContactService
         //oavsett vad
         return _contactList;
     }
+
 
     //för testning
     public IEnumerable<IContact> GetAllFromList()
