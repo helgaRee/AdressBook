@@ -1,23 +1,18 @@
-﻿using AdressBook.Shared.Interfaces;
-using AdressBook.Shared.Services;
+﻿// ### LÄSA OCH SKRIVA TILL FIL ###
+
+using AdressBook.Shared.Interfaces;
+using AdressBook.Shared.Models;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace AdressBook.Shared.Services;
 
-public interface IFileService
-{
-    bool SaveContactToFile(string contact);
-
-    string GetContactFromFile();
-}
-
-//sätter ett privat fält och initierar den i konstuktorn, vilket gör att
-//första gången jag gör en instans av min fileService, sätts en filePath = färdighanterat!
 public class FileService(string filePath) : IFileService
 {
-
     private readonly string _filePath = filePath;
+
+
+
     public bool SaveContactToFile(string contact)
     {
         try
@@ -46,10 +41,10 @@ public class FileService(string filePath) : IFileService
                 return sr.ReadToEnd();
             }
         }
-        catch (Exception ex) { Debug.WriteLine(ex.Message); }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error reading file {_filePath}: {ex.Message}");
+        }
         return null!;
-    }
-
-
-    
+    } 
 }

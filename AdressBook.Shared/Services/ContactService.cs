@@ -1,42 +1,55 @@
-﻿//I contactService kan jag lägga till, ta bort och hämta kontakter. Och uppdatera?
+﻿//## HANTERING AV LISTAN - lägga till, ta bort, uppdatera, visa listan ##
+
 using AdressBook.Shared.Interfaces;
 using AdressBook.Shared.Models;
+using AdressBook.Shared.Repositories;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace AdressBook.Shared.Services;
 public class ContactService : IContactService
 {
-
     private readonly FileService _fileService = new FileService(@"C:\EC\Projects\content.json");
     private List<IContact> _contactList = new List<IContact>();
+    
+    public ContactService(FileService fileService)
+    {
+        _fileService = fileService;
+        _contactList = GetContactsFromList().ToList();
+    }
 
 
+    /// <summary>
+    /// Add a contact to a contact List
+    /// </summary>
+    /// <param name="contact">A contact of type IContact</param>
+    /// <returns>Returns true if successfull, or false if it failes or contact already exists</returns>
     //Add contacts to list
     public bool AddContactToList(IContact contact)
     {
         try
         {
-        if (!_contactList.Any(currentContactInList => currentContactInList.Email == contact.Email))
-        {
-            _contactList.Add(contact);
-            _fileService.SaveContactToFile(JsonConvert.SerializeObject(_contactList));
+            if (!_contactList.Any(currentContactInList => currentContactInList.Email == contact.Email))
+            {
+                _contactList.Add(contact);
+                _fileService.SaveContactToFile(JsonConvert.SerializeObject(_contactList));
                 return true;
+            }
         }
-        }
-        catch ( Exception ex ) { Debug.WriteLine(ex.Message); }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return false;
     }
 
 
 
-
-    //Delete contacts from list, bool to return a value
+    /// <summary>
+    /// Delete a contact from a contact List
+    /// </summary>
+    /// <param name="email">An email of type string</param>
+    /// <returns>Returns true if delete was succesfull, or false if it failes or the email doesnt exist in list </returns>
     public bool DeleteContactFromList(string email)
     {
-        
+
         try
         {
             // Hämta befintliga kontakter
@@ -56,9 +69,9 @@ public class ContactService : IContactService
                 return true;
             }
         }
-        catch (Exception ex) 
-        { 
-            Debug.WriteLine(ex); 
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
         };
         return false;
     }
@@ -70,7 +83,11 @@ public class ContactService : IContactService
 
 
 
-    //Get and read contactList
+    /// <summary>
+    /// Get all the contacts from the contact list, and read contact list
+    /// </summary>
+    /// <param name="_contactList">a list of type name</param>
+    /// <returns>Return list of contacts if its not empty</returns>
     public List<IContact> GetContactsFromList(List<IContact> _contactList)
     {
         try
@@ -80,7 +97,7 @@ public class ContactService : IContactService
             if (!string.IsNullOrEmpty(contact))
             {
 
-               _contactList = JsonConvert.DeserializeObject<List<IContact>>(contact)!;
+                _contactList = JsonConvert.DeserializeObject<List<IContact>>(contact)!;
             }
         }
         catch (Exception ex) { Debug.WriteLine(ex); };
@@ -101,6 +118,11 @@ public class ContactService : IContactService
     }
 
     public bool DeleteContactFromList(IContact contact)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<IContact> GetContactsFromList()
     {
         throw new NotImplementedException();
     }
