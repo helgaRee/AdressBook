@@ -9,15 +9,14 @@ using System.Diagnostics;
 namespace AdressBook.Shared.Services;
 public class ContactService : IContactService
 {
-    private readonly FileService _fileService = new FileService(@"C:\EC\Projects\content.json");
+    private readonly IFileService _fileService; 
     private List<IContact> _contactList = new List<IContact>();
     
-    public ContactService(FileService fileService)
+    public ContactService(IFileService fileService)
     {
         _fileService = fileService;
         _contactList = GetContactsFromList().ToList();
     }
-
 
     /// <summary>
     /// Add a contact to a contact List
@@ -115,15 +114,5 @@ public class ContactService : IContactService
         catch (Exception ex) { Debug.WriteLine(ex); }
         return null!;
         
-    }
-
-    public bool DeleteContactFromList(IContact contact)
-    {
-        throw new NotImplementedException();
-    }
-
-    public List<IContact> GetContactsFromList()
-    {
-        throw new NotImplementedException();
     }
 }

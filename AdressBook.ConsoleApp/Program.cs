@@ -19,9 +19,7 @@ using AdressBook.Shared.Interfaces;
 var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
 {
     //De klasser jag skickat med i en konstruktor registreras här
-    services.AddSingleton<FileService>();
-   // services.AddSingleton<IFileService>(new FileService(@"C:\EC\Projects\content.json"));
-    services.AddSingleton<IFileService>(provider => provider.GetRequiredService<FileService>());
+    services.AddSingleton<IFileService>(new FileService(@"C:\Projects\content.json"));
     services.AddSingleton<ContactRepository>();
     services.AddSingleton<ContactService>();
     services.AddSingleton<MenuService>();
