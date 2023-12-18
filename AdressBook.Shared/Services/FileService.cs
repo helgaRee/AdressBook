@@ -11,32 +11,34 @@ public class FileService(string filePath) : IFileService
 {
     private readonly string _filePath = filePath;
 
-
-
+    /// <summary>
+    /// Save a contact to file
+    /// </summary>
+    /// <param name="contact">A contact of type string</param>
+    /// <returns>Returns true if the contact was successfully saved to file, else returns false</returns>
     public bool SaveContactToFile(string contact)
     {
         try
         {
-
             using (var sw = new StreamWriter(_filePath))
             {
-                sw.Write(contact); //skriver in content i filen
+                sw.Write(contact);
             }
             return true;
         }
-
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return false;
     }
 
-
-
-
+    /// <summary>
+    /// Get a contact from file
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns>If contact exist in file, return contact, else return null.</returns>
     public string GetContactFromFile()
     {
         try
         {
-            //kontroll om filen existerar med sw, om true = using
             if (File.Exists(_filePath))
             {
                 using var sr = new StreamReader(_filePath);

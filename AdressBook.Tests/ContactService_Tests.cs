@@ -9,7 +9,7 @@ public class ContactService_Tests
 {
     //fact - vårat test - lägga till en kontakt till listan
     [Fact]
-    public void AddContactToList_AddOneContactToContactList_ThenReturnTrue()
+    public void AddContactToListShould_AddOneContactToContactList_ThenReturnTrue()
     {
         //Arrange - vilka förberedelser behövs göras?
         IContact contact = new Contact 
@@ -36,7 +36,6 @@ public class ContactService_Tests
     public void DeleteContactFromListShould_DeleteOneContactFromList_ThenReturnTrue()
     {
         //Arrange
-        //instansiering
         IContactService contactService = new ContactService();
         IContact contact = new Contact
         (

@@ -6,15 +6,19 @@ using System.Diagnostics;
 using System.Linq;
 
 namespace AdressBook.Shared.Services;
-//I contactService kan jag lägga till, ta bort och hämta kontakter. Och uppdatera?
+/// <summary>
+/// Lets the user add, delete, get and update contacts.
+/// </summary>
 public class ContactService
-{
-
+{ 
     private readonly FileService _fileService = new FileService(@"C:\EC\Projects\content.json");
     private List<Contact> _contactList = new List<Contact>();
-
-
-    //Add contacts to list
+    
+    /// <summary>
+    /// Ádd a new contact to list
+    /// </summary>
+    /// <param name="contact">A contact of type string</param>
+    /// <returns>If the contact is not in list, add to list and save to file.</returns>
     public void AddContactToList(Contact contact)
     {
         try
@@ -28,28 +32,28 @@ public class ContactService
         catch (Exception ex) { Debug.WriteLine(ex); };
     }
 
-
-
-    //update kontakt
+    /// <summary>
+    /// Update a contact in List
+    /// </summary>
+    /// <param name="selectedContact">The selected contact from user, of type string</param>
+    /// <returns>Updates contact if its in list</returns>
     public void UpdateContact(Contact selectedContact)
     {
         try
         {
-            //Hitta indexet för den befintliga kontakten i listan
+            //Find index for the current contact in list
             int index = _contactList.FindIndex(current => current.Email == selectedContact.Email);
 
             if (index != -1)
             {
-                //uppdatera kontakt i listan
+                //Update contact
                 _contactList[index] = selectedContact;
-                //Spara den uppdaterade listan till filen
+                //Save the updated contact to file
                 _fileService.SaveContactToFile(JsonConvert.SerializeObject(_contactList));
             }
             else
-            {
-                //om kontakten inte finns i listan, lägg till
+            {           
                 _contactList.Add(selectedContact);
-                //spara den uppdaterade listan till filen
                 _fileService.SaveContactToFile(JsonConvert.SerializeObject(_contactList));
             }
         }
@@ -59,8 +63,6 @@ public class ContactService
         }
     }
 
-
-
     /// <summary>
     /// Delete a contact from a contact List
     /// </summary>
@@ -68,7 +70,6 @@ public class ContactService
     /// <returns>Returns true if delete was succesfull, or false if it failes or the email doesnt exist in list </returns>
     public bool DeleteContactFromList(string email)
     {
-
         try
         {
             // Hämta befintliga kontakter
@@ -95,13 +96,16 @@ public class ContactService
         return false;
     }
 
-    //Get and read contactList
+    /// <summary>
+    /// Get contacts from list
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns>Get all the contacts from list as Json</returns>
     public List<Contact> GetContactsFromList()
     {
         try
-        { //Hämta contacten
+        {
             var contact = _fileService.GetContactFromFile();
-            //gör om listan till json. Om strängen inte är null/empty
             if (!string.IsNullOrEmpty(contact))
             {
 
@@ -109,9 +113,6 @@ public class ContactService
             }
         }
         catch (Exception ex) { Debug.WriteLine(ex); };
-        //oavsett vad
         return _contactList;
     }
-
-
 }
