@@ -24,4 +24,7 @@ public class Contact : IContact
         PhoneNumber = phoneNumber;
     }
 
+    public Contact()
+    {
+    }
 }

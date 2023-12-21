@@ -25,7 +25,7 @@ public class MenuService
             Console.WriteLine("");
             Console.WriteLine($"{"",-50}### ADRESS BOOK ###");
             Console.WriteLine("");
-            Console.WriteLine("Välj bland alternativen in menyn nedan:");
+            Console.WriteLine("Välj bland alternativen i menyn nedan:");
             Console.WriteLine("---------------------------------------");
             Console.WriteLine("");
             Console.WriteLine($"{"1.",-3} Lägg till kontakt");
@@ -72,20 +72,20 @@ public class MenuService
     public void AddContact()
     {
         DisplayTitle("Lägg till ny kontakt");
-
-        Console.Write($"{"",-4}Ange förnamn: ");
+        Console.WriteLine("Ange: ");
+        Console.Write($"{"",-4}Förnamn: ");
         string firstName = Console.ReadLine()!;
-        Console.Write($"{"",-4}Ange efternamn: ");
+        Console.Write($"{"",-4}Efternamn: ");
         string lastName = Console.ReadLine()!;
-        Console.Write($"{"",-4}Ange email: ");
+        Console.Write($"{"",-4}Email: ");
         string email = Console.ReadLine()!;
-        Console.Write($"{"",-4}Ange mobilnummer: ");
+        Console.Write($"{"",-4}Mobilnummer: ");
         string phoneNumber = Console.ReadLine()!;
-        Console.Write($"{"",-4}Ange gatuadress: ");
+        Console.Write($"{"",-4}Gatuadress: ");
         string streetAdress = Console.ReadLine()!;
-        Console.Write($"{"",-4}Ange postkod: ");
+        Console.Write($"{"",-4}Postkod: ");
         string postalCode = Console.ReadLine()!;
-        Console.Write($"{"",-4}Ange stad: ");
+        Console.Write($"{"",-4}Stad: ");
         string city = Console.ReadLine()!;
 
         var contact = new Contact(firstName, lastName, email, streetAdress, city, postalCode, phoneNumber);
@@ -93,7 +93,7 @@ public class MenuService
         _contactService.AddContactToList(contact);
 
         Console.WriteLine("");
-        Console.WriteLine($"{"", -4}{firstName} {lastName} har lagts till som ny kontakt till adressboken.");
+        Console.WriteLine($"{"",-4}{firstName} {lastName} har lagts till som ny kontakt till adressboken.");
         Console.WriteLine("");
         Console.WriteLine($"{"",-4}Tryck enter för att gå vidare");
     }
@@ -106,7 +106,7 @@ public class MenuService
     public void ShowSpecificContact()
     {
         DisplayTitle("Öppna en kontakt");
- 
+
         var contactList = _contactService.GetContactsFromList();
 
         Console.WriteLine("Ange siffran för den kontakt du vill visa");
@@ -118,14 +118,12 @@ public class MenuService
             {
                 Console.WriteLine($"{i + 1}. Namn: {contactList[i].FirstName} {contactList[i].LastName}");
             }
-
             if (int.TryParse(Console.ReadLine(), out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= contactList.Count)
             {
                 var selectedContact = contactList.ElementAt(selectedIndex - 1);
                 Console.Clear();
 
                 DisplayTitle($"Kontakt {selectedIndex} {selectedContact.FirstName} {selectedContact.LastName}");
-                Console.WriteLine("");
                 //Console.WriteLine($"{"##",-3}Namn: {selectedContact.FirstName} {selectedContact.LastName}");
                 Console.WriteLine($"{"-",-4}Email: {selectedContact.Email}");
                 Console.WriteLine($"{"-",-4}Adress: {selectedContact.Address}");
@@ -136,12 +134,12 @@ public class MenuService
                 Console.WriteLine($"{"",-4}Vill du ändra kontakten? (ja/nej)");
                 Console.WriteLine("");
                 string userChoiceChange = Console.ReadLine()?.ToLower() ?? "";
-                
+
                 if (userChoiceChange == "ja")
                 {
                     ChangeContact(selectedContact);
                 }
-                else if(userChoiceChange == "nej")
+                else if (userChoiceChange == "nej")
                 {
                     Console.Clear();
                     ReturnToMenu();
@@ -167,16 +165,16 @@ public class MenuService
     {
         DisplayTitle("Ändra kontakt");
         while (true)
-        {         
+        {
             Console.Clear();
             Console.WriteLine("");
-            Console.WriteLine($"{"1",-4}. Förnamn: {selectedContact.FirstName}");
-            Console.WriteLine($"{"2",-4}. Efteramn: {selectedContact.LastName}");
-            Console.WriteLine($"{"3",-4}. Email: {selectedContact.Email}");
-            Console.WriteLine($"{"4",-4}. Adress: {selectedContact.Address}");
-            Console.WriteLine($"{"5",-4}. Postkod: {selectedContact.PostalCode}");
-            Console.WriteLine($"{"6",-4}. Stad: {selectedContact.City}");
-            Console.WriteLine($"{"7",-4}. Mobilnummer: {selectedContact.PhoneNumber}");
+            Console.WriteLine($"{"1.",-4} Förnamn: {selectedContact.FirstName}");
+            Console.WriteLine($"{"2.",-4} Efteramn: {selectedContact.LastName}");
+            Console.WriteLine($"{"3.",-4} Email: {selectedContact.Email}");
+            Console.WriteLine($"{"4.",-4} Adress: {selectedContact.Address}");
+            Console.WriteLine($"{"5.",-4} Postkod: {selectedContact.PostalCode}");
+            Console.WriteLine($"{"6.",-4} Stad: {selectedContact.City}");
+            Console.WriteLine($"{"7.",-4} Mobilnummer: {selectedContact.PhoneNumber}");
 
             Console.WriteLine("");
             Console.WriteLine($"{"",-4}Ange siffra för vilken rad du vill ändra (1-7)");
@@ -194,37 +192,37 @@ public class MenuService
             {
                 case "1":
                     Console.Write($"{"",-4}Ange nytt förnamn: ");
-                    string newFirstName = Console.ReadLine();
+                    string newFirstName = Console.ReadLine()!;
                     selectedContact.FirstName = newFirstName;
                     break;
                 case "2":
                     Console.Write($"{"",-4}Ange nytt efternamn: ");
-                    string newLastName = Console.ReadLine();
+                    string newLastName = Console.ReadLine()!;
                     selectedContact.LastName = newLastName;
                     break;
                 case "3":
                     Console.Write($"{"",-4}Ange ny email: ");
-                    string newEmail = Console.ReadLine();
+                    string newEmail = Console.ReadLine()!;
                     selectedContact.Email = newEmail;
                     break;
                 case "4":
                     Console.Write($"{"",-4}Ange ny adress: ");
-                    string newAddress = Console.ReadLine();
+                    string newAddress = Console.ReadLine()!;
                     selectedContact.Address = newAddress;
                     break;
                 case "5":
                     Console.Write($"{"",-4}Ange ny postkod: ");
-                    string newPostalCode = Console.ReadLine();
+                    string newPostalCode = Console.ReadLine()!;
                     selectedContact.PostalCode = newPostalCode;
                     break;
                 case "6":
                     Console.Write($"{"",-4}Ange ny stad: ");
-                    string newCity = Console.ReadLine();
+                    string newCity = Console.ReadLine()!;
                     selectedContact.City = newCity;
                     break;
                 case "7":
                     Console.Write($"{"",-4}Ange nytt mobilnummer: ");
-                    string newPhoneNumber = Console.ReadLine();
+                    string newPhoneNumber = Console.ReadLine()!;
                     selectedContact.PhoneNumber = newPhoneNumber;
                     break;
                 default:
@@ -252,26 +250,26 @@ public class MenuService
         {
             for (int i = 0; i < contactList.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. Namn:  {contactList[i].FirstName} {contactList[i].LastName}\n{"", -3}Email: {contactList[i].Email}");
+                Console.WriteLine($"{i + 1}. Namn:  {contactList[i].FirstName} {contactList[i].LastName}\n{"",-3}");
                 Console.WriteLine("\n");
             }
-                Console.WriteLine($"Ange 'Delete' för att ta bort, 'Show' för att visa kontakt\neller tryck enter för att gå tillbaka till menyn.");
-                string userChoice = Console.ReadLine();
+            Console.WriteLine($"Ange 'Delete' för att ta bort, 'Show' för att visa kontakt\neller tryck enter för att gå tillbaka till menyn.");
+            string userChoice = Console.ReadLine()!;
 
-        switch(userChoice.ToLower())
-        {
-            case "delete":
-                DeleteContact();
-                Console.ReadKey();
-                break;
-            case "show":
-                ShowSpecificContact();
-                Console.ReadKey();
-                break;
-            default:
-                Console.WriteLine($"Du skickas tillbaka till menyn.");
-                break;
-        }         
+            switch (userChoice.ToLower())
+            {
+                case "delete":
+                    DeleteContact();
+                    Console.ReadKey();
+                    break;
+                case "show":
+                    ShowSpecificContact();
+                    Console.ReadKey();
+                    break;
+                default:
+                    Console.WriteLine($"Du skickas tillbaka till menyn.");
+                    break;
+            }
         }
         else
         {
@@ -301,30 +299,45 @@ public class MenuService
             }
 
             Console.WriteLine("\n");
-            Console.WriteLine($"Ange email för vilken kontakt du vill ta bort");
-            string emailToDelete = Console.ReadLine();
+            Console.WriteLine("Ange email för vilken kontakt du vill ta bort, eller enter för att gå tillbaka till menyn.");
+            string emailToDelete = Console.ReadLine()!;
 
-            if (emailToDelete != "")
+            Console.WriteLine("Ångrat dig? Ange 'avbryt'");
+            string cancelOption = Console.ReadLine()?.ToLower();
+
+            if (cancelOption == "avbryt")
             {
-            var contactToRemove = contactList.FirstOrDefault(contact => contact.Email.Equals(emailToDelete, StringComparison.OrdinalIgnoreCase));
-
-            Console.Clear();
-            bool deleteSuccess = Convert.ToBoolean(_contactService.DeleteContactFromList(emailToDelete));
-
-            if (deleteSuccess)
-            {
-                Console.WriteLine($"Kontakt med e-postadress {contactToRemove.Email} har tagits bort.");
+                ReturnToMenu();
             }
             else
             {
+                if (!string.IsNullOrEmpty(emailToDelete))
                 {
-                    Console.WriteLine($"Ingen kontakt med e-postadressen {contactToRemove.Email} hittades.");
+                    var contactToRemove = contactList.FirstOrDefault(contact => contact.Email.Equals(emailToDelete, StringComparison.OrdinalIgnoreCase));
+
+                    if (contactToRemove != null)
+                    {
+                        Console.Clear();
+                        bool deleteSuccess = _contactService.DeleteContactFromList(emailToDelete);
+
+                        if (deleteSuccess)
+                        {
+                            Console.WriteLine($"Kontakt med e-postadress {contactToRemove.Email} har tagits bort.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Ingen kontakt med e-postadressen {contactToRemove.Email} hittades.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Ingen kontakt med e-postadressen {emailToDelete} hittades.");
+                    }
                 }
-            }
-            }
-            else
-            {
-                Console.WriteLine($"Felaktig inmatning, du skickas tillbaka till huvudmenyn..");
+                else
+                {
+                    Console.WriteLine($"Felaktig inmatning, du skickas tillbaka till huvudmenyn..");
+                }
             }
         }
         else
@@ -343,7 +356,7 @@ public class MenuService
         DisplayTitle("Stäng av programmet");
 
         Console.WriteLine($"Är du säker på att du vill avsluta? (ja/nej)");
-        string userOption = Console.ReadLine()?.ToLower();
+        string userOption = Console.ReadLine()?.ToLower()!;
 
         if (userOption != "ja")
         {
@@ -390,7 +403,7 @@ public class MenuService
 
         if (userChoice.ToLower() == "meny")
         {
-           // Console.ReadKey();
+            // Console.ReadKey();
             Console.WriteLine($"Du skickas tillbaka till huvudmenyn.");
         }
     }

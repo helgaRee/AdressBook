@@ -4,32 +4,21 @@ using AdressBook.Shared.Services;
 using Xunit;
 
 namespace AdressBook.Tests;
-//Public för att konna dela filer mellan projekt
+
 public class ContactService_Tests
 {
-    //fact - vårat test - lägga till en kontakt till listan
     [Fact]
     public void AddContactToListShould_AddOneContactToContactList_ThenReturnTrue()
     {
-        //Arrange - vilka förberedelser behövs göras?
-        IContact contact = new Contact 
-        (
-            "Helga", 
-            "Reesalu", 
-            "helga@domain.com", 
-            "Helgeandsgatan", 
-            "Lund", 
-            "1234", 
-            "123123123" 
-        );
-        //instansiering
+        //Arrange
+        IContact contact = new Contact { FirstName = "Helga", LastName = "Reesalu", Email = "helga@domain.com", Address = "Helgeandsgatan", City = "Lund", PostalCode = "1234", PhoneNumber = "123123123" };
         IContactService contactService = new ContactService();
 
         //Act - lägg till kontakten i adressboken - metoden genereras i interfacet
-        bool result = contactService.AddContactToList( contact );
+        bool result = contactService.AddContactToList(contact);
 
         //Assert - kontrollera om den finns i listan - ska bli true
-        Assert.True( result );
+        Assert.True(result);
     }
 
     [Fact]
@@ -47,23 +36,21 @@ public class ContactService_Tests
             "1234",
             "123123123"
         );
-        
-        //Act - Lägg till kontakten
-        contactService.AddContactToList(contact);
 
-        //Act - Ta bort kontakten
+        //Act
+        contactService.AddContactToList(contact);
         bool deleteResult = contactService.DeleteContactFromList(contact.Email);
 
         //Assert
-        Assert.True( deleteResult );
+        Assert.True(deleteResult);
 
-        // Kontrollera om kontakten inte längre finns i listan
-        var contactsAfterDelete = contactService.GetAllFromList();
+        //Kontroll
+        var contactsAfterDelete = contactService.GetContactsFromList();
         Assert.DoesNotContain(contactsAfterDelete, currentC => currentC.Email == contact.Email);
     }
 
     [Fact]
-    public void GetContactsFromListShould_GetAllContactsFromList_ThenReturnList()
+    public void GetAllFromListShould_GetAllContactsFromList_ThenReturnListOfContacts()
     {
         //Arrange
         IContactService contactService = new ContactService();
@@ -77,16 +64,13 @@ public class ContactService_Tests
               "1234",
               "123123123"
           );
-            contactService.AddContactToList(contact);
+        contactService.AddContactToList(contact);
 
         //Act
-        IEnumerable<IContact> result = contactService.GetAllFromList();
+        List<IContact> result = contactService.GetContactsFromList();
 
         //Assert - förväntas inte bli null och att listan innehåller någonting (assert är olika kontroller som görs)
-        Assert.NotNull( result );
-        Assert.True(result.Any()); //innehåller den något värde?
-
-       
+        Assert.NotNull(result);
+        Assert.True(result.Any());
     }
-
 }
