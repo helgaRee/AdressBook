@@ -1,6 +1,4 @@
-﻿
-
-namespace AdressBook.Shared.Interfaces;
+﻿namespace AdressBook.Shared.Interfaces;
 
 public interface IContactService
 {
@@ -9,5 +7,5 @@ public interface IContactService
     void UpdateContact(IContact existingContact, IContact updateContact);
     bool DeleteContactFromList(string email);
     List<IContact> GetContactsFromList();
-
+    bool DeleteContactFromList(IContact contact);
 }

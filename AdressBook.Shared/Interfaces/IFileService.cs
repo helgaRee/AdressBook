@@ -7,4 +7,5 @@ public interface IFileService
     bool SaveContactToFile(string contact);
 
     string GetContactFromFile();
+    bool SaveContactToFile(string filePath, string content);
 }

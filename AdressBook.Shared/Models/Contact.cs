@@ -23,8 +23,4 @@ public class Contact : IContact
         PostalCode = postalCode;
         PhoneNumber = phoneNumber;
     }
-
-    public Contact()
-    {
-    }
 }
