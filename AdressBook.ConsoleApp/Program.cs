@@ -8,7 +8,7 @@ using AdressBook.Shared.Interfaces;
 
 var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
 {
-    services.AddSingleton<FileService>(new FileService(@"C:\Projects\content.json"));
+    services.AddSingleton<FileService>(new FileService(@"C:\Helga\Project\content.json"));
     services.AddSingleton<ContactRepository>();
     services.AddSingleton<ContactService>();
     services.AddSingleton<MenuService>();

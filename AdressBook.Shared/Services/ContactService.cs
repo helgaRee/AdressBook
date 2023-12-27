@@ -11,7 +11,7 @@ namespace AdressBook.Shared.Services;
 /// </summary>
 public class ContactService : IContactService
 {
-    private readonly FileService _fileService = new FileService(@"C:\EC\Projects\content.json");
+    private readonly FileService _fileService = new FileService(@"C:\Helga\Project\content.json");
     private List<Contact> _contactList = new List<Contact>();
 
     /// <summary>
@@ -25,7 +25,7 @@ public class ContactService : IContactService
         {
             if (!_contactList.Any(currentContactInList => currentContactInList.Email == contact.Email))
             {
-                _contactList.Add(contact);
+                _contactList.Add((Contact)contact);
                 _fileService.SaveContactToFile(JsonConvert.SerializeObject(_contactList));
                 return true;
             }
