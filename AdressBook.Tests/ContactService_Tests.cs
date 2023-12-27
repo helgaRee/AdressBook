@@ -3,7 +3,8 @@ using AdressBook.Shared.Models;
 using AdressBook.Shared.Services;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using Xunit;
+
+
 
 namespace AdressBook.Tests;
 
@@ -13,7 +14,7 @@ public class ContactService_Tests
     public void AddContactToListShould_AddOneContactToContactList_ThenReturnTrue()
     {
         //Arrange
-        IContact contact = new Contact { FirstName = "Helga", LastName = "Reesalu", Email = "helga@domain.com", Address = "Helgeandsgatan", City = "Lund", PostalCode = "1234", PhoneNumber = "123123123" };
+        IContact contact = new Contact("John", "Doe", "john.doe@example.com", "123 Main St", "Cityville", "12345", "555-1234");
         IContactService contactService = new ContactService();
 
         //Act - lägg till kontakten i adressboken - metoden genereras i interfacet
@@ -27,7 +28,7 @@ public class ContactService_Tests
     public void DeleteContactFromListShould_DeleteOneContactFromList_ThenReturnTrue()
     {
         //Arrange
-        IContact contact = new Contact { FirstName = "Helga", LastName = "Reesalu", Email = "helga@domain.com", Address = "Helgeandsgatan", City = "Lund", PostalCode = "1234", PhoneNumber = "123123123" };
+        IContact contact = new Contact("John", "Doe", "john.doe@example.com", "123 Main St", "Cityville", "12345", "555-1234");
         IContactService contactService = new ContactService();
 
         //Act
@@ -52,7 +53,7 @@ public class ContactService_Tests
     {
         //Arrange
         //Arrange
-        IContact contact = new Contact { FirstName = "Helga", LastName = "Reesalu", Email = "helga@domain.com", Address = "Helgeandsgatan", City = "Lund", PostalCode = "1234", PhoneNumber = "123123123" };
+        IContact contact = new Contact("John", "Doe", "john.doe@example.com", "123 Main St", "Cityville", "12345", "555-1234");
         IContactService contactService = new ContactService();
         contactService.AddContactToList(contact);
 
