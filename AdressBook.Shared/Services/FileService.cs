@@ -1,9 +1,5 @@
 ﻿// ### LÄSA OCH SKRIVA TILL FIL ###
-
-using AdressBook.Shared.Interfaces;
-using AdressBook.Shared.Models;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace AdressBook.Shared.Services;
 

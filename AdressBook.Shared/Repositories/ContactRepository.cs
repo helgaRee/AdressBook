@@ -1,7 +1,5 @@
 ﻿// ### UTFÖR ALLA HANDLINGAR ###
 using AdressBook.Shared.Models;
-using AdressBook.Shared.Services;
-using AdressBook.Shared.Repositories;
 
 namespace AdressBook.Shared.Repositories;
 

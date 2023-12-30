@@ -1,9 +1,7 @@
 ﻿using AdressBook.Shared.Interfaces;
 using AdressBook.Shared.Models;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace AdressBook.Shared.Services;
 /// <summary>
@@ -11,7 +9,7 @@ namespace AdressBook.Shared.Services;
 /// </summary>
 public class ContactService : IContactService
 {
-    private readonly FileService _fileService = new FileService(@"C:\Helga\Project\content.json");
+    private readonly FileService _fileService = new FileService(@"C:\Helga\AdressBook\contacts.json");
     private List<Contact> _contactList = new List<Contact>();
 
     /// <summary>
@@ -135,6 +133,11 @@ public class ContactService : IContactService
     }
 
     public bool DeleteContactFromList(IContact contact)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UpdateContact(IContact selectedContact)
     {
         throw new NotImplementedException();
     }

@@ -72,7 +72,7 @@ public class MenuService
     public void AddContact()
     {
         DisplayTitle("Lägg till ny kontakt");
-        Console.WriteLine("Ange: ");
+        Console.WriteLine($"{"",-4}Ange: \n");
         Console.Write($"{"",-4}Förnamn: ");
         string firstName = Console.ReadLine()!;
         Console.Write($"{"",-4}Efternamn: ");
@@ -185,7 +185,6 @@ public class MenuService
             if (userChoice.ToLower() == "meny")
             {
                 break;
-                Console.Clear();
             }
 
             switch (userChoice)
@@ -250,8 +249,8 @@ public class MenuService
         {
             for (int i = 0; i < contactList.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. Namn:  {contactList[i].FirstName} {contactList[i].LastName}\n{"",-3}");
-                Console.WriteLine("\n");
+                Console.WriteLine($"{i + 1}. Namn:  {contactList[i].FirstName} {contactList[i].LastName}");
+                Console.WriteLine("");
             }
             Console.WriteLine($"Ange 'Delete' för att ta bort, 'Show' för att visa kontakt\neller tryck enter för att gå tillbaka till menyn.");
             string userChoice = Console.ReadLine()!;
@@ -302,8 +301,8 @@ public class MenuService
             Console.WriteLine("Ange email för vilken kontakt du vill ta bort, eller enter för att gå tillbaka till menyn.");
             string emailToDelete = Console.ReadLine()!;
 
-            Console.WriteLine("Ångrat dig? Ange 'avbryt'");
-            string cancelOption = Console.ReadLine()?.ToLower();
+            Console.WriteLine("Ångrat dig? Ange 'avbryt', annars gå vidare med enter.");
+            string cancelOption = Console.ReadLine()?.ToLower()!;
 
             if (cancelOption == "avbryt")
             {
@@ -369,6 +368,8 @@ public class MenuService
         }
         else
         {
+            Console.WriteLine("");
+            Console.WriteLine("Hej då!");
             Environment.Exit(0);
         }
 
